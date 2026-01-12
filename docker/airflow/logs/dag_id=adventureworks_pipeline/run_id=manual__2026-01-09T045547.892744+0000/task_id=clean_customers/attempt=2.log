@@ -1,0 +1,25 @@
+[2026-01-09T05:00:51.549+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: adventureworks_pipeline.clean_customers manual__2026-01-09T04:55:47.892744+00:00 [queued]>
+[2026-01-09T05:00:51.565+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: adventureworks_pipeline.clean_customers manual__2026-01-09T04:55:47.892744+00:00 [queued]>
+[2026-01-09T05:00:51.566+0000] {taskinstance.py:2170} INFO - Starting attempt 2 of 2
+[2026-01-09T05:00:51.596+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): clean_customers> on 2026-01-09 04:55:47.892744+00:00
+[2026-01-09T05:00:51.606+0000] {standard_task_runner.py:60} INFO - Started process 359 to run task
+[2026-01-09T05:00:51.611+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'adventureworks_pipeline', 'clean_customers', 'manual__2026-01-09T04:55:47.892744+00:00', '--job-id', '20', '--raw', '--subdir', 'DAGS_FOLDER/adventureworks_pipeline.py', '--cfg-path', '/tmp/tmp3cygj28b']
+[2026-01-09T05:00:51.616+0000] {standard_task_runner.py:88} INFO - Job 20: Subtask clean_customers
+[2026-01-09T05:00:51.814+0000] {task_command.py:423} INFO - Running <TaskInstance: adventureworks_pipeline.clean_customers manual__2026-01-09T04:55:47.892744+00:00 [running]> on host 31242699d451
+[2026-01-09T05:00:52.806+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data-engineer' AIRFLOW_CTX_DAG_ID='adventureworks_pipeline' AIRFLOW_CTX_TASK_ID='clean_customers' AIRFLOW_CTX_EXECUTION_DATE='2026-01-09T04:55:47.892744+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-01-09T04:55:47.892744+00:00'
+[2026-01-09T05:00:52.811+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-01-09T05:00:52.816+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/***/project/scripts/transform/clean_customers.py']
+[2026-01-09T05:00:52.872+0000] {subprocess.py:86} INFO - Output:
+[2026-01-09T05:00:52.968+0000] {subprocess.py:93} INFO - python: can't open file '/opt/***/project/scripts/transform/clean_customers.py': [Errno 2] No such file or directory
+[2026-01-09T05:00:52.974+0000] {subprocess.py:97} INFO - Command exited with return code 2
+[2026-01-09T05:00:53.050+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/bash.py", line 212, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 2.
+[2026-01-09T05:00:53.063+0000] {taskinstance.py:1138} INFO - Marking task as FAILED. dag_id=adventureworks_pipeline, task_id=clean_customers, execution_date=20260109T045547, start_date=20260109T050051, end_date=20260109T050053
+[2026-01-09T05:00:53.105+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 20 for task clean_customers (Bash command failed. The command returned a non-zero exit code 2.; 359)
+[2026-01-09T05:00:53.143+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-01-09T05:00:53.192+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
