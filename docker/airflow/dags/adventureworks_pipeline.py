@@ -3,7 +3,7 @@ from airflow.operators.bash import BashOperator
 from datetime import datetime
 
 # Chemin racine du projet dans le container
-PROJECT_PATH = "/opt/airflow/project"
+PROJECT_PATH = "/opt/airflow"
 
 default_args = {
     "owner": "data-engineer",
