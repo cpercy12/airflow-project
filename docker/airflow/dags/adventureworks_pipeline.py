@@ -19,6 +19,9 @@ with DAG(
     default_args=default_args
 ) as dag:
 
+    # --------------------
+    # CLEANING
+    # --------------------
     clean_customers = BashOperator(
         task_id="clean_customers",
         bash_command=f"python {PROJECT_PATH}/scripts/transform/clean_customers.py"
@@ -39,15 +42,52 @@ with DAG(
         bash_command=f"python {PROJECT_PATH}/scripts/transform/clean_salesorderdetail.py"
     )
 
-    build_fact_sales = BashOperator(
-        task_id="build_fact_sales",
-        bash_command=f"python {PROJECT_PATH}/scripts/mart/build_fact_sales.py"
+    # --------------------
+    # DIMENSIONS
+    # --------------------
+    load_dim_customer = BashOperator(
+        task_id="load_dim_customer",
+        bash_command=f"python {PROJECT_PATH}/scripts/warehouse/load_dim_customer.py"
     )
 
-    # Dépendances
-    [
+    load_dim_product = BashOperator(
+        task_id="load_dim_product",
+        bash_command=f"python {PROJECT_PATH}/scripts/warehouse/load_dim_product.py"
+    )
+
+    load_dim_date = BashOperator(
+        task_id="load_dim_date",
+        bash_command=f"python {PROJECT_PATH}/scripts/warehouse/load_dim_date.py"
+    )
+
+    # --------------------
+    # FACT
+    # --------------------
+    load_fact_sales = BashOperator(
+        task_id="load_fact_sales",
+        bash_command=f"python {PROJECT_PATH}/scripts/warehouse/load_fact_sales.py"
+    )
+
+    # --------------------
+    # DEPENDENCIES
+    # --------------------
+    clean_tasks = [
         clean_customers,
         clean_products,
         clean_salesorderheader,
         clean_salesorderdetail
-    ] >> build_fact_sales
+    ]
+
+    # CLEAN → DIMENSIONS
+    clean_tasks >> [
+        load_dim_customer,
+        load_dim_product,
+        load_dim_date
+    ]
+
+    # DIMENSIONS → FACT
+    [
+        load_dim_customer,
+        load_dim_product,
+        load_dim_date
+    ] >> load_fact_sales
